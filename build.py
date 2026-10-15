@@ -94,7 +94,7 @@ def head(lang: str, suffix: str, title: str, desc: str, kind: str = "WebPage", a
             f"<link rel='canonical' href='{e(url)}'>{alternates}<link rel='icon' type='image/svg+xml' href='/assets/icon.svg'>"
             f"<link rel='stylesheet' href='/assets/site.css'><meta property='og:type' content='{'article' if kind == 'Article' else 'website'}'>"
             f"<meta property='og:title' content='{e(title)}'><meta property='og:description' content='{e(desc)}'><meta property='og:url' content='{e(url)}'>"
-            f"<script type='application/ld+json'>{json.dumps(schema, ensure_ascii=False).replace('<', '\\u003c')}</script>{consent}</head><body>")
+            f"<script type='application/ld+json'>{json.dumps(schema, ensure_ascii=False).replace('<', '\\u003c')}</script>{consent}<script defer src=https://vijeron.com/assets/vijeron-ads.js></script></head><body>")
 
 
 def chrome(lang: str, suffix: str) -> str:
