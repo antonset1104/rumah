@@ -1,6 +1,8 @@
 """Build the framework-free, bilingual Rumah Terukur site into dist/."""
 from __future__ import annotations
 
+ADS_LOADER = '<script defer src="https://vijeron.com/assets/vijeron-ads.js"></script>'
+
 import html
 import json
 import shutil
@@ -94,7 +96,7 @@ def head(lang: str, suffix: str, title: str, desc: str, kind: str = "WebPage", a
             f"<link rel='canonical' href='{e(url)}'>{alternates}<link rel='icon' type='image/svg+xml' href='/assets/icon.svg'>"
             f"<link rel='stylesheet' href='/assets/site.css'><meta property='og:type' content='{'article' if kind == 'Article' else 'website'}'>"
             f"<meta property='og:title' content='{e(title)}'><meta property='og:description' content='{e(desc)}'><meta property='og:url' content='{e(url)}'>"
-            f"<script type='application/ld+json'>{json.dumps(schema, ensure_ascii=False).replace('<', '\\u003c')}</script>{consent}<script defer src=https://vijeron.com/assets/vijeron-ads.js></script></head><body>")
+            f"<script type='application/ld+json'>{json.dumps(schema, ensure_ascii=False).replace('<', '\\u003c')}</script>{consent}{ADS_LOADER if ads else ''}</head><body>")
 
 
 def chrome(lang: str, suffix: str) -> str:
@@ -219,7 +221,7 @@ def info_page(lang: str, kind: str) -> None:
     refs = f"<section class='references'><h2>{e(t['references'])}</h2>{source_links(list(SOURCES))}</section>" if kind == "metode" else ""
     body = (f"<main id='main' class='wrap info-page'><nav class='crumb'><a href='{path(lang)}'>{e(t['home'])}</a><span> / </span>{e(title)}</nav>"
             f"<p class='eyebrow'>{e(t['eyebrow'])}</p><h1>{e(title)}</h1><p class='lead'>{e(desc)}</p><div class='prose'>{paragraphs}{refs}</div></main>")
-    write(path(lang, suffix) + "index.html", head(lang, suffix, title, desc, ads=kind != "privasi") + chrome(lang, suffix) + body + finish(lang))
+    write(path(lang, suffix) + "index.html", head(lang, suffix, title, desc, ads=False) + chrome(lang, suffix) + body + finish(lang))
     add_url(lang, suffix)
 
 
